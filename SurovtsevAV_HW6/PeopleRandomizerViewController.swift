@@ -72,38 +72,13 @@ class PeopleRandomizerViewController: UITableViewController {
             self.phoneNumber = phoneNumber
         }
     }
-
-    // Making random persones
-    func makeRandomePersones () {
-        var namesRandom = names
-        var secondNamesRandom = secondNames
-        while !namesRandom.isEmpty {
-            randomPersones.append (Persone(name: namesRandom.randomElement()!, secondName: secondNamesRandom.randomElement()!, email: "", phoneNumber: ""))
-            if let index = namesRandom.firstIndex(of: randomPersones.last!.name) {
-                namesRandom.remove(at: index)
-            }
-            if let index = secondNamesRandom.firstIndex(of: randomPersones.last!.secondName) {
-                secondNamesRandom.remove(at: index)
-            }
-            let num = randomPersones.count - 1
-            randomPersones[num].email = randomPersones.last!.name.lowercased() + "." + randomPersones.last!.secondName.lowercased() + "@gmail.com"
-            randomPersones[num].phoneNumber = String(Int.random(in: 100...999)) + "-" + String(Int.random(in: 10...99)) + "-" + String(Int.random(in: 10...99))
-        }
-        
-    }
-    
-    // Pull to refresh - ranndomize persones
-    @objc func refresh(sender:AnyObject)
-    {
-        randomPersones = []
-        makeRandomePersones ()
-        tableView.reloadData()
-        self.refreshControl?.endRefreshing()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.refreshControl?.addTarget(self, action: #selector(refresh), for: UIControl.Event.valueChanged)
+        
+        navigationItem.title = "Random Persones"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -135,5 +110,34 @@ class PeopleRandomizerViewController: UITableViewController {
             detailVC.emailOfPersone = randomPersones[indexPath.row].email
             detailVC.phoneOfPersone = randomPersones[indexPath.row].phoneNumber
         }
+    }
+    
+    // Pull to refresh - ranndomize persones
+    @objc func refresh(sender:AnyObject)
+    {
+        randomPersones = []
+        makeRandomePersones ()
+        self.refreshControl?.endRefreshing()
+        tableView.reloadData()
+        
+    }
+    
+    // Making random persones
+    func makeRandomePersones () {
+        var namesRandom = names
+        var secondNamesRandom = secondNames
+        while !namesRandom.isEmpty {
+            randomPersones.append (Persone(name: namesRandom.randomElement()!, secondName: secondNamesRandom.randomElement()!, email: "", phoneNumber: ""))
+            if let index = namesRandom.firstIndex(of: randomPersones.last!.name) {
+                namesRandom.remove(at: index)
+            }
+            if let index = secondNamesRandom.firstIndex(of: randomPersones.last!.secondName) {
+                secondNamesRandom.remove(at: index)
+            }
+            let num = randomPersones.count - 1
+            randomPersones[num].email = randomPersones.last!.name.lowercased() + "." + randomPersones.last!.secondName.lowercased() + "@gmail.com"
+            randomPersones[num].phoneNumber = String(Int.random(in: 100...999)) + "-" + String(Int.random(in: 10...99)) + "-" + String(Int.random(in: 10...99))
+        }
+        
     }
 }

@@ -11,13 +11,8 @@ import UIKit
 class MainViewController: UIViewController {
     
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var nameLabel: UILabel!
-    @IBOutlet var secondNameLabel: UILabel!
     @IBOutlet var emailLabel: UILabel!
     @IBOutlet var phoneNumberLabel: UILabel!
-    
-    //    @IBOutlet var emailLabel: UILabel!
-    //    @IBOutlet var phoneLabel: UILabel!
     
     var nameOfPersone: String!
     var secondNameOfPersone: String!
@@ -27,11 +22,9 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         imageView.image = UIImage(named: nameOfPersone)
-        nameLabel.text = nameOfPersone
-        secondNameLabel.text = secondNameOfPersone
+        navigationItem.title = nameOfPersone + " " + secondNameOfPersone
         emailLabel.text = emailOfPersone
         phoneNumberLabel.text = phoneOfPersone
         imageView.layer.cornerRadius = imageView.frame.height / 2
     }
-    
 }
